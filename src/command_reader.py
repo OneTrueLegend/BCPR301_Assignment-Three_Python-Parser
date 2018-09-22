@@ -1,74 +1,27 @@
-import argparse
 from cmd import Cmd
-from subprocess import call
 from tkinter import filedialog, Tk
+from subprocess import call
 
-import csv_plugin as csv
-import pickle_modules
-import python_code_validator as validate
-import uml_output as uml_out
-from statistics_creator import StatisticsCreator
+import sys
 
-from src import model
+from src.csv_plugin import CSV_handler
+from src.model import FileProcessor
+from src.pickle_modules import PickleModules
+from src.python_code_validator import CodeValidator
+from src.statistics_creator import StatisticsCreator
+from src.uml_output import MakeUML
+import os
 
 
-class Controller(Cmd):
+class CommandReader(Cmd):
     def __init__(self):
         Cmd.__init__(self)
         # Command line argument variables
-        self.files = None
-        self.statistics = None
-        self.extracted_modules = None
-        self.output = None
-        self.args = self.register_arguments()
-        self.parse_arguments()
+        self.controller = None
         self.prompt = '> '
 
-    # Created By Jake
-    def run_console(self):
-        self.cmdloop('Starting prompt...\n'
-                     'Type "help" for commands')
-
-    # Created by Jake
-    def register_arguments(self):
-        # Create your commands in here
-        parser = argparse.ArgumentParser()
-        # Created by Braeden
-        parser.add_argument(
-            "-f",
-            "--file",
-            nargs="+",
-            help="Multiple file input for parse")
-        # Created By Jake Reddock
-        parser.add_argument(
-            "-s",
-            "--statistics",
-            action='store_true',
-            help="Print Statistics for classes uploaded")
-        # Created By Michael Huang
-        parser.add_argument(
-            "-o",
-            "--output",
-            help="Setting name of the output location")
-        return parser.parse_args()
-
-    # Created By Jake Reddock
-    def parse_arguments(self):
-        # Create Logic for your arguments here
-        # Created by Jake
-        if self.args.statistics:
-            self.statistics = StatisticsCreator("statistics")
-            self.statistics.create_tables()
-            print("Statistics collecting is turned on")
-        # Created by Braeden
-        if self.args.file is not None:
-            self.files = self.args.file
-            print("Files selected: ")
-            print(*self.files, sep="\n")
-        # Created by Michael Huang
-        if self.args.output is not None:
-            self.output = self.args.output
-            print("Now setting names of output files")
+    def set_controller(self, controller):
+        self.controller = controller
 
     def do_enable_statistics(self, args):
         """
@@ -76,8 +29,8 @@ class Controller(Cmd):
         Author: Jake Reddock
         Syntax: enable_statistics
         """
-        self.statistics = StatisticsCreator("statistics")
-        self.statistics.create_tables()
+        self.controller.statistics = StatisticsCreator("statistics")
+        self.controller.statistics.create_tables()
         print("Statistics collecting is turned on")
 
     def do_show_statistics(self, args):
@@ -87,10 +40,10 @@ class Controller(Cmd):
         Syntax: show_statistics
         Requires: enable_statistics, output_to_dot
         """
-        if self.statistics is not None:
-            if self.extracted_modules is not None:
+        if self.controller.statistics is not None:
+            if self.controller.extracted_modules is not None:
                 print("Creating graph, please wait...")
-                self.statistics.show_graph_data()
+                self.controller.statistics.show_graph_data()
             else:
                 print("Please run the \"output_to_dot\" to command")
         else:
@@ -105,7 +58,7 @@ class Controller(Cmd):
         """
         user_args = args.split()
         if len(user_args) > 0:
-            self.files = [args]
+            self.controller.files = [args]
         else:
             print("Syntax Error: change_python_files <filenames.py>")
 
@@ -129,7 +82,7 @@ class Controller(Cmd):
             if "-m" in user_options:
                 hide_methods = True
 
-        self.run_parser(self, hide_attributes, hide_methods)
+        self.controller.run_parser(self, hide_attributes, hide_methods)
 
     def do_set_input_file(self, args):
         """
@@ -139,7 +92,7 @@ class Controller(Cmd):
         """
         if len(args) == 0:
             root = Tk()
-            self.files = filedialog.askopenfilenames(
+            self.controller.files = filedialog.askopenfilenames(
                 initialdir="C:/",
                 title="Select Input File",
                 filetypes=(
@@ -149,12 +102,12 @@ class Controller(Cmd):
                      "*.*")))
             root.withdraw()
         else:
-            self.files = [args]
-        if self.files == "":
+            self.controller.files = [args]
+        if self.controller.files == "":
             print("No input file selected.")
         else:
             print("Input file selected:")
-            print(*self.files, sep="\n")
+            print(*self.controller.files, sep="\n")
 
     # Created by Michael Huang
     def do_output_to_file(self, args):
@@ -173,10 +126,10 @@ class Controller(Cmd):
             print(root.filename)
             root.withdraw()
 
-            copyfile('tmp/class.png', root.filename + '/class.png')
+            copyfile('../tmp/class.png', root.filename + '/class.png')
         else:
             try:
-                copyfile('tmp/class.png', args + '/class.png')
+                copyfile('../tmp/class.png', args + '/class.png')
                 print('The output to the file destination was successful.')
             except FileNotFoundError as f:
                 print('Failed to find a file: %s' % f)
@@ -190,22 +143,8 @@ class Controller(Cmd):
         Converts dot file into PNG
         Author: Braeden
         """
-        return call(['dot', '-Tpng', 'tmp/class.dot', '-o', 'tmp/class.png'])
-
-    # Edited by Jake
-    @staticmethod
-    def run_parser(self, hide_attributes, hide_methods):
-        if len(self.files) > 0:
-            # Initiate processor
-            processor = model.FileProcessor()
-            processor.process_files(self.files)
-
-            self.extracted_modules = processor.get_modules()
-
-            new_uml = uml_out.MakeUML(hide_attributes, hide_methods)
-            return new_uml.create_class_diagram(self.extracted_modules)
-        else:
-            print("Error: No files were set, use command change_python_files")
+        # TODO Not working yet
+        return call(['dot', '-Tpng', '/tmp/class.dot', '-o', '/tmp/class.png'])
 
     def do_validate_py(self, args):
         '''
@@ -218,7 +157,7 @@ class Controller(Cmd):
         elif type(args) == list:
             files = args
 
-        check_code = validate.CodeValidator()
+        check_code = CodeValidator()
         validated_file = check_code.validate_files(files)
 
     def do_save_to_csv(self, params):
@@ -239,11 +178,11 @@ class Controller(Cmd):
         if len(args) >= 2:
             output_file = args[1]
         if input_file[0].endswith('.py'):
-            fileprocessor = model.FileProcessor()
+            fileprocessor = FileProcessor()
             fileprocessor.process_files(input_file)
             modules = fileprocessor.get_modules()
             # print(modules)
-            csv_writer = csv.CSV_handler()
+            csv_writer = CSV_handler()
             if csv_writer.write_csv_file(modules, output_file):
                 print('File successfully saved as {}'.format(output_file))
 
@@ -260,9 +199,9 @@ class Controller(Cmd):
         if len(args) >= 1:
             input_file = args[0]
         if input_file.endswith('.csv'):
-            csvloader = csv.CSV_handler()
+            csvloader = CSV_handler()
             module = csvloader.open_file(input_file)
-            makediagram = uml_out.MakeUML(True, True)
+            makediagram = MakeUML(True, True)
             if makediagram.create_class_diagram(module):
                 print(
                     "{} successfully converted to UML class diagram".format(input_file))
@@ -277,10 +216,10 @@ class Controller(Cmd):
         eg pickle_modules plants.py
         '''
         file = [filename]
-        parser = model.FileProcessor()
+        parser = FileProcessor()
         parser.process_files(file)
         modules = parser.get_modules()
-        pickler = pickle_modules.PickleModules()
+        pickler = PickleModules()
         return pickler.save(modules)
 
     def load_pickle(self):
@@ -291,7 +230,7 @@ class Controller(Cmd):
         Command:
         load_pickle
         '''
-        pickler = pickle_modules.PickleModules()
+        pickler = PickleModules()
         return pickler.load()
 
     def do_quit(self, other):

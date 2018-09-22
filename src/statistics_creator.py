@@ -1,6 +1,7 @@
 import plotly
 
-from src import sql
+from src.database.sqlite_database import Database
+from src.database.sqlite_error import SQLError
 
 
 # By Jake Reddock
@@ -41,14 +42,14 @@ class StatisticsCreator:
     'TestName'
     """
     def __init__(self, db_name):
-        self.db = sql.database(db_name)
+        self.db = Database(db_name)
 
     def create_tables(self):
         try:
             self.db.query(
                 "CREATE TABLE IF NOT EXISTS ClassData (classID INTEGER PRIMARY KEY AUTOINCREMENT, className "
                 "TEXT, attributeCount INTEGER, methodCount INTEGER);")
-        except sql.SQLError as e:
+        except SQLError as e:
             print(e)
 
     def insert_class(self, class_node):
@@ -57,7 +58,7 @@ class StatisticsCreator:
                           class_node.name + "'," +
                           str(len(class_node.attributes)) + "," +
                           str(len(class_node.functions)) + ");")
-        except sql.SQLError as e:
+        except SQLError as e:
             print(e)
 
     def get_class_data(self):
@@ -65,7 +66,7 @@ class StatisticsCreator:
         try:
             result = self.db.query(
                 "SELECT className,attributeCount,methodCount from ClassData").fetch()
-        except sql.SQLError as e:
+        except SQLError as e:
             print(e)
         for row in result:
             class_name = row['className']
@@ -103,7 +104,7 @@ class StatisticsCreator:
         layout = plotly.graph_objs.Layout(barmode='group')
 
         fig = plotly.graph_objs.Figure(data=data, layout=layout)
-        plotly.offline.plot(fig, filename='grouped-bar.html')
+        plotly.offline.plot(fig, filename='../tmp/grouped-bar.html')
 
 
 if __name__ == '__main__':
