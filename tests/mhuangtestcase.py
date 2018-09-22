@@ -1,5 +1,6 @@
 import unittest
-import sqlcontrol
+
+from src import sqlcontrol
 
 """
 >>> output_to_file E:\BCPR301 - Advanced Programming
