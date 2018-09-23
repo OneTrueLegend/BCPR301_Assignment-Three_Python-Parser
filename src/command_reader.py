@@ -143,8 +143,9 @@ class CommandReader(Cmd):
         Converts dot file into PNG
         Author: Braeden
         """
-        # TODO Not working yet
-        return call(['dot', '-Tpng', '/tmp/class.dot', '-o', '/tmp/class.png'])
+        # TODO Not working yet as cannot test with Ara computers
+        os.chdir(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
+        return call(['dot', '-Tpng', 'tmp/class.dot', '-o', 'tmp/class.png'])
 
     def do_validate_py(self, args):
         '''
