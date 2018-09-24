@@ -151,6 +151,18 @@ class FileProcessor:
         if module_name not in self.modules:
             self.modules[module_name] = list()
 
+        super_classes = self.get_super_classes(some_class)
+
+        # create class node and append to current module
+        class_node = ClassNode(name, super_classes)
+        self.modules[module_name].append(class_node)
+        self.create_function_list(some_class, class_node)
+        # Edited By Jake
+        if self.statistics is not None:
+            self.statistics.insert_class(class_node)
+
+    @staticmethod
+    def get_super_classes(some_class):
         super_classes = []
         super_classes_names = []
 
@@ -162,13 +174,7 @@ class FileProcessor:
                     super_classes.append(class_object)
                     super_classes_names.append(class_object.__name__)
 
-        # create class node and append to current module
-        class_node = ClassNode(name, super_classes)
-        self.modules[module_name].append(class_node)
-        self.create_function_list(some_class, class_node)
-        # Edited By Jake
-        if self.statistics is not None:
-            self.statistics.insert_class(class_node)
+        return super_classes
 
     def create_function_list(self, some_class, class_node):
         # create list of functions in class
