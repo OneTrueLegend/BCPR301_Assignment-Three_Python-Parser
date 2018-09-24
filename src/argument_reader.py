@@ -34,9 +34,7 @@ class ArgumentReader:
     # Created By Jake Reddock
     def parse_arguments(self):
         if self.args.statistics:
-            self.controller.statistics = StatisticsCreator("statistics")
-            self.controller.statistics.create_tables()
-            print("Statistics collecting is turned on")
+            self.controller.enable_statistics()
 
         if self.args.file is not None:
             self.controller.set_input_files(self.args.file)

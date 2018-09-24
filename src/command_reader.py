@@ -26,9 +26,7 @@ class CommandReader(Cmd):
         Author: Jake Reddock
         Syntax: enable_statistics
         """
-        self.controller.statistics = StatisticsCreator("statistics")
-        self.controller.statistics.create_tables()
-        print("Statistics collecting is turned on")
+        self.controller.enable_statistics()
 
     def do_show_statistics(self, args):
         """

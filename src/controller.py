@@ -2,6 +2,7 @@ from src import model
 import src.uml_output as uml_out
 from src.argument_reader import ArgumentReader
 from src.command_reader import CommandReader
+from src.statistics_creator import StatisticsCreator
 
 
 class Controller:
@@ -41,3 +42,7 @@ class Controller:
             print("Input file selected:")
             print(*self.files, sep="\n")
 
+    def enable_statistics(self):
+        self.controller.statistics = StatisticsCreator("statistics")
+        self.controller.statistics.create_tables()
+        print("Statistics collecting is turned on")
