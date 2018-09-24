@@ -43,6 +43,6 @@ class Controller:
             print(*self.files, sep="\n")
 
     def enable_statistics(self):
-        self.controller.statistics = StatisticsCreator("statistics")
-        self.controller.statistics.create_tables()
+        self.statistics = StatisticsCreator("statistics")
+        self.statistics.create_tables()
         print("Statistics collecting is turned on")

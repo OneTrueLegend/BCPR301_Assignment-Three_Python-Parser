@@ -2,13 +2,10 @@ from cmd import Cmd
 from tkinter import filedialog, Tk
 from subprocess import call
 
-import sys
-
 from src.csv_plugin import CSV_handler
 from src.model import FileProcessor
 from src.pickle_modules import PickleModules
 from src.python_code_validator import CodeValidator
-from src.statistics_creator import StatisticsCreator
 from src.uml_output import MakeUML
 import os
 
