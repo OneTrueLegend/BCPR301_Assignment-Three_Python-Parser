@@ -2,8 +2,6 @@ import inspect
 import os
 import sys
 
-from src.statistics_creator import StatisticsCreator
-
 
 ##########################################
 # Initial helper classes to store information while the parser
@@ -167,7 +165,12 @@ class FileProcessor:
         # create class node and append to current module
         class_node = ClassNode(name, super_classes)
         self.modules[module_name].append(class_node)
+        self.create_function_list(some_class, class_node)
+        # Edited By Jake
+        if self.statistics is not None:
+            self.statistics.insert_class(class_node)
 
+    def create_function_list(self, some_class, class_node):
         # create list of functions in class
         for (name, something) in inspect.getmembers(some_class):
             if inspect.ismethod(something) or inspect.isfunction(something):
@@ -190,9 +193,6 @@ class FileProcessor:
                         class_node,
                         self.get_visibility_of_string(
                             something.__name__))
-        # Edited By Jake
-        if self.statistics is not None:
-            self.statistics.insert_class(class_node)
 
     @staticmethod
     def process_function(some_function, class_node, visibility):
@@ -233,4 +233,5 @@ class FileProcessor:
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod(extraglobs={'fp': FileProcessor()})
