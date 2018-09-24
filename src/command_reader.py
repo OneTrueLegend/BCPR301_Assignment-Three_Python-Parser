@@ -89,22 +89,17 @@ class CommandReader(Cmd):
         """
         if len(args) == 0:
             root = Tk()
-            self.controller.files = filedialog.askopenfilenames(
+            self.controller.set_input_files(filedialog.askopenfilenames(
                 initialdir="C:/",
                 title="Select Input File",
                 filetypes=(
                     ("Python Files",
                      "*.py"),
                     ("all files",
-                     "*.*")))
+                     "*.*"))))
             root.withdraw()
         else:
-            self.controller.files = [args]
-        if self.controller.files == "":
-            print("No input file selected.")
-        else:
-            print("Input file selected:")
-            print(*self.controller.files, sep="\n")
+            self.controller.set_input_files([args])
 
     # Created by Michael Huang
     def do_output_to_file(self, args):

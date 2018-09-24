@@ -39,9 +39,7 @@ class ArgumentReader:
             print("Statistics collecting is turned on")
 
         if self.args.file is not None:
-            self.controller.files = self.args.file
-            print("Files selected: ")
-            print(*self.controller.files, sep="\n")
+            self.controller.set_input_files(self.args.file)
 
         if self.args.output is not None:
             self.controller.output = self.args.output

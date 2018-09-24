@@ -32,3 +32,12 @@ class Controller:
             return new_uml.create_class_diagram(self.controller.extracted_modules)
         else:
             print("Error: No files were set, use command change_python_files")
+
+    def set_input_files(self, files):
+        self.files = files
+        if self.files == "":
+            print("No input file selected.")
+        else:
+            print("Input file selected:")
+            print(*self.files, sep="\n")
+
