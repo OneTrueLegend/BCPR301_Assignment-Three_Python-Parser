@@ -1,16 +1,18 @@
 from src import model
 import src.uml_output as uml_out
+from src.argument_reader import ArgumentReader
+from src.command_reader import CommandReader
 
 
 class Controller:
-    def __init__(self, command_reader, argument_reader):
+    def __init__(self):
         # Command line argument variables
-        self.command_reader = command_reader
-        self.arguement_reader = argument_reader
         self.files = None
         self.statistics = None
         self.output_location = None
         self.extracted_modules = None
+        self.command_reader = CommandReader(self)
+        self.argument_reader = ArgumentReader(self)
 
     def run_console(self):
         self.command_reader.cmdloop('Starting prompt...\n'

@@ -14,14 +14,11 @@ import os
 
 
 class CommandReader(Cmd):
-    def __init__(self):
+    def __init__(self, controller):
         Cmd.__init__(self)
         # Command line argument variables
-        self.controller = None
-        self.prompt = '> '
-
-    def set_controller(self, controller):
         self.controller = controller
+        self.prompt = '> '
 
     def do_enable_statistics(self, args):
         """

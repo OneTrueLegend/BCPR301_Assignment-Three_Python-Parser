@@ -9,12 +9,7 @@ from src.controller import Controller
 
 
 def initiate_python_parser():
-    command_reader = CommandReader()
-    argument_reader = ArgumentReader()
-    controller = Controller(command_reader, argument_reader)
-    command_reader.set_controller(controller)
-    argument_reader.set_controller(controller)
-    argument_reader.parse_arguments()
+    controller = Controller()
     controller.run_console()
 
 

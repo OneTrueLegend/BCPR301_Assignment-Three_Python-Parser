@@ -1,13 +1,12 @@
 import argparse
 from src.statistics_creator import StatisticsCreator
 
-class ArgumentReader:
-    def __init__(self):
-        self.controller = None
-        self.args = self.register_arguments()
 
-    def set_controller(self, controller):
+class ArgumentReader:
+    def __init__(self, controller):
         self.controller = controller
+        self.args = self.register_arguments()
+        self.parse_arguments()
 
     # Created by Jake
     def register_arguments(self):
@@ -47,4 +46,3 @@ class ArgumentReader:
         if self.args.output is not None:
             self.controller.output = self.args.output
             print("Now setting names of output files")
-
