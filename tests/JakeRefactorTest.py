@@ -22,17 +22,81 @@ class ModelTestCase(unittest.TestCase):
     #1
     Bad Smell: Large Class
     """
+    def test_cmd_enable_statistics(self):
+        """
+        Location: 'python_controller.py-Controller-whole file'
+        Testing whether statistics can be enabled by the command method
+        Author: Jake
+        """
+        controller = Controller()
+        controller.command_reader.do_enable_statistics("")
+        actual = controller.statistics
+        self.assertIsNotNone(actual)
 
+    def test_cmd_set_input_file(self):
+        """
+        Location: 'python_controller.py-Controller-whole file'
+        Testing whether input files can be selected by gui
+        Author: Jake
+        """
+        controller = Controller()
+        controller.command_reader.do_set_input_file("")
+        actual = controller.files
+        self.assertIsNotNone(actual)
+
+    def test_cmd_set_input_file_args(self):
+        """
+        Location: 'python_controller.py-Controller-whole file'
+        Testing whether input files can be selected by arguments
+        Author: Jake
+        """
+        expected = ["plants.py"]
+        controller = Controller()
+        controller.command_reader.do_set_input_file("plants.py")
+        actual = controller.files
+        self.assertEqual(actual, expected)
     """
     #2
     Duplicate Code
     """
+    def test_cmd_enable_statistics(self):
+        """
+        Location: 'python_controller.py-Controller-Lines (68-70, 122-139)'
+        Testing whether statistics can be enabled by the command method
+        Author: Jake
+        """
+        controller = Controller()
+        controller.command_reader.do_enable_statistics("")
+        actual = controller.statistics
+        self.assertIsNotNone(actual)
+
+    def test_cmd_set_input_file(self):
+        """
+        Location: 'python_controller.py-Controller-Lines (45-60, 122-139)'
+        Testing whether input files can be selected by gui
+        Author: Jake
+        """
+        controller = Controller()
+        controller.command_reader.do_set_input_file("")
+        actual = controller.files
+        self.assertIsNotNone(actual)
+
+    def test_cmd_set_input_file_args(self):
+        """
+        Location: 'python_controller.py-Controller-Lines (45-60, 122-139)'
+        Testing whether input files can be selected by arguments
+        Author: Jake
+        """
+        expected = ["plants.py"]
+        controller = Controller()
+        controller.command_reader.do_set_input_file("plants.py")
+        actual = controller.files
+        self.assertEqual(actual, expected)
 
     """
     #3
     Bad Smell: Long Method
     """
-
     def test_model_process_single_class(self):
         """
         Location: 'model.py-FileProcessor-process_class-Lines(126-170)'
