@@ -20,17 +20,16 @@ class Controller:
                                     'Type "help" for commands')
 
     # Edited by Jake
-    @staticmethod
     def run_parser(self, hide_attributes, hide_methods):
-        if len(self.controller.files) > 0:
+        if len(self.files) > 0:
             # Initiate processor
-            processor = model.FileProcessor(self.controller.statistics)
-            processor.process_files(self.controller.files)
+            processor = model.FileProcessor(self.statistics)
+            processor.process_files(self.files)
 
-            self.controller.extracted_modules = processor.get_modules()
+            self.extracted_modules = processor.get_modules()
 
             new_uml = uml_out.MakeUML(hide_attributes, hide_methods)
-            return new_uml.create_class_diagram(self.controller.extracted_modules)
+            return new_uml.create_class_diagram(self.extracted_modules)
         else:
             print("Error: No files were set, use command change_python_files")
 

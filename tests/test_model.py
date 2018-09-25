@@ -1,10 +1,11 @@
 import unittest
 
-import csv_plugin
-import python_code_validator as py_cv
-import python_controller
 
 from src import model
+from src.controller import Controller
+from src.csv_plugin import CSV_handler
+from src.pickle_modules import PickleModules
+from src.python_code_validator import CodeValidator
 
 
 class ModelTestCase(unittest.TestCase):
@@ -50,7 +51,7 @@ class ModelTestCase(unittest.TestCase):
         Checks if creation of UML diagram and output to PNG file works
         Author: Braeden
         """
-        ctrl = python_controller.Controller
+        ctrl = Controller
         self.assertTrue(ctrl.do_output_to_png(None) is 0)
 
     def test_file_change(self):
@@ -59,7 +60,7 @@ class ModelTestCase(unittest.TestCase):
         arguments can be changed by function
         Author: Braeden
         """
-        ctrl = python_controller.Controller
+        ctrl = Controller
         ctrl.do_change_python_files(ctrl, "file_one.py file_two.py")
 
         self.assertTrue(ctrl.files[0] == "file_one.py")
@@ -164,14 +165,14 @@ class ModelTestCase(unittest.TestCase):
 # Author Peter
 
     def test_01_true_input(self):
-        testclass = csv_plugin.CSV_handler()
+        testclass = CSV_handler()
         example_type = dict()
         expected = type(example_type)
         actual = type(testclass.open_file('linkedlist.csv'))
         self.assertEqual(expected, actual)
 
     def test_02_false_input(self):
-        testclass = csv_plugin.CSV_handler()
+        testclass = CSV_handler()
         expected = False
         actual = testclass.open_file('dreaming.csv')
         self.assertEqual(
@@ -187,7 +188,7 @@ class ModelTestCase(unittest.TestCase):
         newModelData = model.FileProcessor()
         newModelData.process_files(data_for_model)
         model_data_module = newModelData.get_modules()
-        testclass = csv_plugin.CSV_handler()
+        testclass = CSV_handler()
         expected = testclass.write_csv_file(
             model_data_module, 'testdatafile02.csv')
         test_module = testclass.open_file('test_data_file01.csv')
@@ -196,7 +197,7 @@ class ModelTestCase(unittest.TestCase):
         # compares a file already in csv form with a newly generated file based
         # on the original
         import filecmp
-        testclass = csv_plugin.CSV_handler()
+        testclass = CSV_handler()
         input_file = 'linkedlist.csv'
         output_file = 'test_compare_file.csv'
         module = testclass.open_file(input_file)
@@ -209,35 +210,35 @@ class ModelTestCase(unittest.TestCase):
     # Author: Peter
 
     def test_05_code_validator_true_input(self):
-        testclass = py_cv.CodeValidator()
+        testclass = CodeValidator()
         filename = 'linkedlist.py'
         expected = True
         actual = testclass.validate_file(filename)
         self.assertEqual(expected, actual)
 
     def test_06_code_validator_false_input(self):
-        testclass = py_cv.CodeValidator()
+        testclass = CodeValidator()
         filename = 'NoSuchPythonFile.py'
         expected = False
         actual = testclass.validate_file(filename)
         self.assertEqual(expected, actual)
 
     def test_07_code_validator_multiple_correct_files(self):
-        testclass = py_cv.CodeValidator()
+        testclass = CodeValidator()
         input_list = ['linkedlist.py', 'plants.py', 'csv_plugin.py']
         expected = 3
         actual = len(testclass.validate_files(input_list))
         self.assertEqual(expected, actual)
 
     def test_08_code_validator_multiple_incorrect_files(self):
-        testclass = py_cv.CodeValidator()
+        testclass = CodeValidator()
         input_list = ['linkedlist', 'plants', 'csv_plugin']
         expected = 0
         actual = len(testclass.validate_files(input_list))
         self.assertEqual(expected, actual)
 
     def test_09_code_validator_multiple_mixed_files(self):
-        testclass = py_cv.CodeValidator()
+        testclass = CodeValidator()
         input_list = ['linkedlist.py', 'plants.py', 'csv_plugin']
         expected = 2
         actual = len(testclass.validate_files(input_list))
@@ -246,14 +247,14 @@ class ModelTestCase(unittest.TestCase):
     # Test pickle modules
 
     def test_10_pickle_save(self):
-        pickler = pm.PickleModules()
+        pickler = PickleModules()
         data = 12345
         expected = True
         actual = pickler.save(data)
         self.assertEqual(expected, actual)
 
     def test_11_pickle_load(self):
-        pickler = pm.PickleModules()
+        pickler = PickleModules()
         expected = 12345
         actual = pickler.load()
         self.assertEqual(expected, actual)
@@ -263,7 +264,7 @@ class ModelTestCase(unittest.TestCase):
         newModelData = model.FileProcessor()
         newModelData.process_files(data_for_model)
         model_data_module = newModelData.get_modules()
-        pickler = pm.PickleModules()
+        pickler = PickleModules()
         expected = True
         actual = pickler.save(model_data_module)
         self.assertEqual(expected, actual)
@@ -273,7 +274,7 @@ class ModelTestCase(unittest.TestCase):
         newModelData = model.FileProcessor()
         newModelData.process_files(data_for_model)
         model_data_module = newModelData.get_modules()
-        pickler = pm.PickleModules()
+        pickler = PickleModules()
         expected = len(model_data_module)
         actual = len(pickler.load())
         self.assertEqual(expected, actual)
@@ -282,7 +283,7 @@ class ModelTestCase(unittest.TestCase):
         data_for_model = ['plants.py']
         newModelData = model.FileProcessor()
         newModelData.process_files(data_for_model)
-        pickler = pm.PickleModules()
+        pickler = PickleModules()
         actual = True
         try:
             expected = TypeError
