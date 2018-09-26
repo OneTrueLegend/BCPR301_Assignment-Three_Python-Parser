@@ -42,18 +42,6 @@ class CommandReader(Cmd):
             print(
                 "Statistics collecting is not enabled, type \"enable_statistics\" to enable")
 
-    def do_change_python_files(self, args):
-        """
-        Change input files that are to be parsed by system
-        Author: Braeden
-        Syntax: change_python_files <filenames.py>
-        """
-        user_args = args.split()
-        if len(user_args) > 0:
-            self.controller.files = [args]
-        else:
-            print("Syntax Error: change_python_files <filenames.py>")
-
     # Edited By Jake
     def do_output_to_dot(self, args):
         """

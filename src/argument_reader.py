@@ -37,7 +37,3 @@ class ArgumentReader:
 
         if self.args.file is not None:
             self.controller.set_input_files(self.args.file)
-
-        if self.args.output is not None:
-            self.controller.output = self.args.output
-            print("Now setting names of output files")

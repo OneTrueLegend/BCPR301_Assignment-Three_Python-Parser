@@ -10,7 +10,6 @@ class Controller:
         # Command line argument variables
         self.files = None
         self.statistics = None
-        self.output_location = None
         self.extracted_modules = None
         self.command_reader = CommandReader(self)
         self.argument_reader = ArgumentReader(self)
