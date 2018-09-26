@@ -1,5 +1,6 @@
 import unittest
 import os
+from pathlib import Path
 from unittest import mock
 
 import builtins
@@ -26,6 +27,7 @@ class ModelTestCase(unittest.TestCase):
     #1
     Bad Smell: Large Class
     """
+
     def test_cmd_enable_statistics(self):
         """
         Location: 'python_controller.py-Controller-whole file'
@@ -68,10 +70,26 @@ class ModelTestCase(unittest.TestCase):
         controller.run_console()
         actual = controller.files
         self.assertEqual(actual, expected)
+
+    def test_output_file(self):
+        """
+        Location: 'python_controller.py-Controller-whole file'
+        Testing whether file will be output to destination
+        Author: Jake
+        """
+        controller = Controller()
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['output_to_file E:\ARA work', 'quit']
+        builtins.input = m
+        controller.run_console()
+        actual = Path('E:\ARA work\class.png').exists()
+        self.assertTrue(actual)
+
     """
     #2
     Duplicate Code
     """
+
     def test_cmd_enable_statistics(self):
         """
         Location: 'python_controller.py-Controller-Lines (68-70, 122-139)'
@@ -119,6 +137,7 @@ class ModelTestCase(unittest.TestCase):
     #3
     Bad Smell: Long Method
     """
+
     def test_model_process_single_class(self):
         """
         Location: 'model.py-FileProcessor-process_class-Lines(126-170)'
