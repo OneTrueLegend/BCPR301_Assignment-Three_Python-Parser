@@ -1,5 +1,5 @@
-from src import model
 import src.uml_output as uml_out
+from src import model
 from src.argument_reader import ArgumentReader
 from src.command_reader import CommandReader
 from src.statistics_creator import StatisticsCreator

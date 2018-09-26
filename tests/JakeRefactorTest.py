@@ -1,14 +1,13 @@
-import unittest
+import builtins
 import os
+import unittest
 from pathlib import Path
 from unittest import mock
 
-import builtins
-
 import src.model as model
+import src.uml_output as uml_out
 from src.controller import Controller
 from src.statistics_creator import StatisticsCreator
-import src.uml_output as uml_out
 
 
 class ModelTestCase(unittest.TestCase):

@@ -16,6 +16,7 @@ class ClassData:
     >>> ClassData("TestClass",1,1).method_count
     1
     """
+
     def __init__(self, class_name, attribute_count, method_count):
         self.class_name = class_name
         self.attribute_count = attribute_count
@@ -40,6 +41,7 @@ class StatisticsCreator:
     >>> statistics.get_class_data()[0].class_name
     'TestName'
     """
+
     def __init__(self, db_name):
         self.db = Database(db_name)
 

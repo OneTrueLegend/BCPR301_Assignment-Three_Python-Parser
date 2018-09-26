@@ -1,6 +1,5 @@
 import unittest
 
-
 from src import model
 from src.controller import Controller
 from src.csv_plugin import CSV_handler
@@ -161,8 +160,8 @@ class ModelTestCase(unittest.TestCase):
 
         self.assertTrue(md.name == "Attribute One")
 
-# Tests for csv_plugin.py
-# Author Peter
+    # Tests for csv_plugin.py
+    # Author Peter
 
     def test_01_true_input(self):
         testclass = CSV_handler()

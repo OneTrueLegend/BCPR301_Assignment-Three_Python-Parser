@@ -8,7 +8,8 @@ class ArgumentReader:
         self.parse_arguments()
 
     # Created by Jake
-    def register_arguments(self):
+    @staticmethod
+    def register_arguments():
         # Create your commands in here
         parser = argparse.ArgumentParser()
         # Created by Braeden

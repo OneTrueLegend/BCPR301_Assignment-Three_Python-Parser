@@ -1,13 +1,13 @@
+import os
 from cmd import Cmd
-from tkinter import filedialog, Tk
 from subprocess import call
+from tkinter import filedialog, Tk
 
 from src.csv_plugin import CSV_handler
 from src.model import FileProcessor
 from src.pickle_modules import PickleModules
 from src.python_code_validator import CodeValidator
 from src.uml_output import MakeUML
-import os
 
 
 class CommandReader(Cmd):

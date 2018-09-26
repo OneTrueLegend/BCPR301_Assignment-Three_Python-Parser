@@ -114,7 +114,7 @@ class ModelTestCase(unittest.TestCase):
         Author: Jake
         """
         db = sql.database("UnitTest")
-        
+
         with self.assertRaises(sql.SQLError):
             db.query("""SELECT * FROM UnknownTable""")
 
@@ -128,7 +128,7 @@ class ModelTestCase(unittest.TestCase):
         Author: Jake
         """
         statistics = StatisticsCreator("UnitTest")
-        
+
         self.assertIsNotNone(statistics.db.conn)
 
     def test_statistics_creator_classdata(self):
