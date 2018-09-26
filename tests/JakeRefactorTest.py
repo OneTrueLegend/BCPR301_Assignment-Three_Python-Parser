@@ -68,21 +68,6 @@ class ModelTestCase(unittest.TestCase):
         controller.run_console()
         actual = controller.files
         self.assertEqual(actual, expected)
-
-    def test_cmd_set_input_file_args(self):
-        """
-        Location: 'python_controller.py-Controller-whole file'
-        Testing whether input files can be selected by arguments
-        Author: Jake
-        """
-        expected = ["plants.py"]
-        controller = Controller()
-        m = mock.MagicMock(name='input')
-        m.side_effect = ['set_input_file plants.py', 'quit']
-        builtins.input = m
-        controller.run_console()
-        actual = controller.files
-        self.assertEqual(actual, expected)
     """
     #2
     Duplicate Code
