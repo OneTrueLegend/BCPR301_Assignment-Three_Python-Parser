@@ -1,5 +1,4 @@
 import argparse
-from src.statistics_creator import StatisticsCreator
 
 
 class ArgumentReader:

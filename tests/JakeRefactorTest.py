@@ -1,9 +1,13 @@
 import unittest
 import os
-import src.uml_output as uml_out
-from src import model
+from unittest import mock
+
+import builtins
+
+import src.model as model
 from src.controller import Controller
 from src.statistics_creator import StatisticsCreator
+import src.uml_output as uml_out
 
 
 class ModelTestCase(unittest.TestCase):
@@ -29,7 +33,10 @@ class ModelTestCase(unittest.TestCase):
         Author: Jake
         """
         controller = Controller()
-        controller.command_reader.do_enable_statistics("")
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['enable_statistics', 'quit']
+        builtins.input = m
+        controller.run_console()
         actual = controller.statistics
         self.assertIsNotNone(actual)
 
@@ -40,7 +47,10 @@ class ModelTestCase(unittest.TestCase):
         Author: Jake
         """
         controller = Controller()
-        controller.command_reader.do_set_input_file("")
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['set_input_file', 'quit']
+        builtins.input = m
+        controller.run_console()
         actual = controller.files
         self.assertIsNotNone(actual)
 
@@ -52,7 +62,10 @@ class ModelTestCase(unittest.TestCase):
         """
         expected = ["plants.py"]
         controller = Controller()
-        controller.command_reader.do_set_input_file("plants.py")
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['set_input_file plants.py', 'quit']
+        builtins.input = m
+        controller.run_console()
         actual = controller.files
         self.assertEqual(actual, expected)
     """
@@ -66,7 +79,10 @@ class ModelTestCase(unittest.TestCase):
         Author: Jake
         """
         controller = Controller()
-        controller.command_reader.do_enable_statistics("")
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['enable_statistics', 'quit']
+        builtins.input = m
+        controller.run_console()
         actual = controller.statistics
         self.assertIsNotNone(actual)
 
@@ -77,7 +93,10 @@ class ModelTestCase(unittest.TestCase):
         Author: Jake
         """
         controller = Controller()
-        controller.command_reader.do_set_input_file("")
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['set_input_file', 'quit']
+        builtins.input = m
+        controller.run_console()
         actual = controller.files
         self.assertIsNotNone(actual)
 
@@ -89,7 +108,10 @@ class ModelTestCase(unittest.TestCase):
         """
         expected = ["plants.py"]
         controller = Controller()
-        controller.command_reader.do_set_input_file("plants.py")
+        m = mock.MagicMock(name='input')
+        m.side_effect = ['set_input_file plants.py', 'quit']
+        builtins.input = m
+        controller.run_console()
         actual = controller.files
         self.assertEqual(actual, expected)
 
@@ -184,11 +206,6 @@ class ModelTestCase(unittest.TestCase):
         actual = controller.run_parser(False, False)
 
         self.assertEqual(expected, actual)
-
-    """
-    #4
-    Bad Smell: Dead Code
-    """
 
 
 if __name__ == '__main__':

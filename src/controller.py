@@ -19,6 +19,9 @@ class Controller:
         self.command_reader.cmdloop('Starting prompt...\n'
                                     'Type "help" for commands')
 
+    def get_command_reader(self):
+        return self.command_reader
+
     # Edited by Jake
     def run_parser(self, hide_attributes, hide_methods):
         if len(self.files) > 0:

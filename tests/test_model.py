@@ -32,7 +32,7 @@ class ModelTestCase(unittest.TestCase):
         """
         file_processor = model.FileProcessor()
         modules = file_processor.process_files(
-            ["plants.py", "LinkedListNode.py"])
+            ["plants.py", "controller.py"])
 
         self.assertTrue(modules == 2)
 

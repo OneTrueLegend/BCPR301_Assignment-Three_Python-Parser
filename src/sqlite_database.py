@@ -1,7 +1,12 @@
 import sqlite3
 
-from src.database.sqlite_error import SQLError
-from src.database.sqlite_result import DatabaseResult
+
+class SQLError(Exception):
+    def __init__(self, error_message):
+        self.error_message = error_message
+
+    def __str__(self):
+        return "Query Failed: {}".format(self.error_message)
 
 
 class Database:
@@ -53,3 +58,30 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
+
+class DatabaseResult:
+    """
+    Database Result object containing attributes and functions
+    Author: Jake
+
+    >>> database = database("DocTest")
+    >>> query = database.conn.cursor().execute('SELECT data FROM TestTable WHERE id=1').fetchall()
+    >>> database_result(database, query).size()
+    1
+    >>> query = database.conn.cursor().execute('SELECT data FROM TestTable WHERE id=1').fetchall()
+    >>> database_result(database, query).fetch()[0][0]
+    'TestName'
+    """
+
+    def __init__(self, database, query):
+        self.database = database
+        self.query = query
+
+    # Written By Jake Reddock
+    def size(self):
+        return len(self.query)
+
+    # Written By Jake Reddock
+    def fetch(self):
+        return self.query

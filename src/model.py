@@ -102,7 +102,7 @@ class FileProcessor:
         Author: Braeden
         >>> fp.process_files(["plants.py"])
         1
-        >>> fp.process_files(["plants.py", "LinkedListNode.py"])
+        >>> fp.process_files(["plants.py", "controller.py"])
         2
         """
         for file in file_names:
