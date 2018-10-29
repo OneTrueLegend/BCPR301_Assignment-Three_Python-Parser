@@ -1,5 +1,6 @@
 import plotly
 
+from src.Database.SQLiteDatabaseFactory import SQLiteDatabaseFactory
 from src.sqlite_database import Database, SQLError
 
 
@@ -43,7 +44,7 @@ class StatisticsCreator:
     """
 
     def __init__(self, db_name):
-        self.db = Database(db_name)
+        self.db = SQLiteDatabaseFactory(db_name)
 
     def create_tables(self):
         try:

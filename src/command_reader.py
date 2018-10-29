@@ -62,7 +62,7 @@ class CommandReader(Cmd):
             if "-m" in user_options:
                 hide_methods = True
 
-        self.controller.run_parser(self, hide_attributes, hide_methods)
+        self.controller.run_parser(hide_attributes, hide_methods)
 
     def do_set_input_file(self, args):
         """
