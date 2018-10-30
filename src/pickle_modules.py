@@ -11,14 +11,12 @@ __status__ = "Development"
 
 
 class PickleModules:
-    '''
+    """
     Class saves modules and loads them using pickle
-    '''
+    """
 
-    def __init(self):
-        pass
-
-    def save(self, modules):
+    @staticmethod
+    def save(modules):
         try:
             with open('data.pickle', 'wb') as f:
                 pickle.dump(modules, f)
@@ -26,11 +24,12 @@ class PickleModules:
         except BaseException:
             return False
 
-    def load(self):
+    @staticmethod
+    def load():
         try:
             with open('data.pickle', 'rb') as f:
-                loadedModules = pickle.load(f)
-                return loadedModules
+                loaded_modules = pickle.load(f)
+                return loaded_modules
         except IOError:
             print(
                 "Cannot find pickle jar! Please check that you have previously saved your modules")

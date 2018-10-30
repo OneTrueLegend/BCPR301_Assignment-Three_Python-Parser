@@ -4,8 +4,6 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-import src.model as model
-import src.uml_output as uml_out
 from src.controller import Controller
 
 

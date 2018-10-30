@@ -25,7 +25,8 @@ class CodeValidator:
                 validated_files.append(filename)
         return validated_files
 
-    def validate_file(self, filename):
+    @staticmethod
+    def validate_file(filename):
         try:
             py_compile.compile(file=filename, doraise=True)
             print('{} successfully validated'.format(filename))
@@ -41,7 +42,8 @@ class CodeValidator:
             return False
         except BaseException:
             print(
-                'Unknown exception. Could not validate file: {}. Please check that information has been correctly provided and that file is present in specified directory'.format(
+                'Unknown exception. Could not validate file: {}. Please check that information has been correctly '
+                'provided and that file is present in specified directory'.format(
                     filename))
             return False
 

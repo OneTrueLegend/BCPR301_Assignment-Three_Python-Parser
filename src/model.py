@@ -236,8 +236,3 @@ class FileProcessor:
             visibility = "#"
         return visibility
 
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod(extraglobs={'fp': FileProcessor()})

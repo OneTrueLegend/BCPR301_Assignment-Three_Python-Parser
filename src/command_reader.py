@@ -3,7 +3,7 @@ from cmd import Cmd
 from subprocess import call
 from tkinter import filedialog, Tk
 
-from src.csv_plugin import CSV_handler
+from src.csv_plugin import CSVHandler
 from src.model import FileProcessor
 from src.pickle_modules import PickleModules
 from src.python_code_validator import CodeValidator
@@ -123,10 +123,10 @@ class CommandReader(Cmd):
         return call(['dot', '-Tpng', 'tmp/class.dot', '-o', 'tmp/class.png'])
 
     def do_validate_py(self, args):
-        '''
+        """
         Validates a single file as executable python code.
         Author: Peter
-        '''
+        """
         files = []
         if type(args) == str:
             files.append(args)
@@ -137,11 +137,11 @@ class CommandReader(Cmd):
         validated_file = check_code.validate_files(files)
 
     def do_save_to_csv(self, params):
-        '''
+        """
         Saves specified file to csv.
         [command_line] input_file output_file
         Author: Peter
-        '''
+        """
         # print(params, type(params))
         input_file = []
         if params == '':
@@ -154,20 +154,20 @@ class CommandReader(Cmd):
         if len(args) >= 2:
             output_file = args[1]
         if input_file[0].endswith('.py'):
-            fileprocessor = FileProcessor()
+            fileprocessor = FileProcessor(self.controller.statistics)
             fileprocessor.process_files(input_file)
             modules = fileprocessor.get_modules()
             # print(modules)
-            csv_writer = CSV_handler()
+            csv_writer = CSVHandler()
             if csv_writer.write_csv_file(modules, output_file):
                 print('File successfully saved as {}'.format(output_file))
 
     def do_load_csv_for_uml(self, params):
-        '''
+        """
         Loads csv file and creates UML diagram
         [command line] [file.csv]
         Author: Peter
-        '''
+        """
         if params == '':
             params = 'output.csv'
         args = params.split(' ')
@@ -175,7 +175,7 @@ class CommandReader(Cmd):
         if len(args) >= 1:
             input_file = args[0]
         if input_file.endswith('.csv'):
-            csvloader = CSV_handler()
+            csvloader = CSVHandler()
             module = csvloader.open_file(input_file)
             makediagram = MakeUML(True, True)
             if makediagram.create_class_diagram(module):
@@ -183,36 +183,37 @@ class CommandReader(Cmd):
                     "{} successfully converted to UML class diagram".format(input_file))
 
     def do_pickle_modules(self, filename='plants.py'):
-        '''
+        """
         Load modules from single file and save them using pickle
         Author: Peter
 
         Command:
         pickle_modules filename
         eg pickle_modules plants.py
-        '''
+        """
         file = [filename]
-        parser = FileProcessor()
+        parser = FileProcessor(self.controller.statistics)
         parser.process_files(file)
         modules = parser.get_modules()
         pickler = PickleModules()
         return pickler.save(modules)
 
-    def load_pickle(self):
-        '''
+    @staticmethod
+    def load_pickle():
+        """
         Loads previously saved module using pickle
         Author: Peter
 
         Command:
         load_pickle
-        '''
+        """
         pickler = PickleModules()
         return pickler.load()
 
     def do_quit(self, other):
-        '''
+        """
         Quits programme.
         Author: Peter
-        '''
+        """
         print("Goodbye ......")
         return True

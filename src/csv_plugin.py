@@ -1,7 +1,7 @@
-'''
+"""
 Purpose is to save loaded classes to csv format and then be able to recover them
 and put them in a format which can then be used for creating a uml diagram.
-'''
+"""
 
 import csv
 
@@ -17,7 +17,7 @@ __email__ = "peter@intrepid-adventure.com"
 __status__ = "Development"
 
 
-class CSV_handler:
+class CSVHandler:
     def __init__(self):
         # self.filename = name
         pass
@@ -43,7 +43,8 @@ class CSV_handler:
             print('An error has occurred. Could not load information from csv file.')
             return False
 
-    def load_data_to_module(self, module_list):
+    @staticmethod
+    def load_data_to_module(module_list):
         # This is used to parse list and reconsruct the class structure
         # current version will only work with a single file. Extenstion should be easy
         # Module is loaded into dictionary which can then be used by by the uml output to
@@ -53,31 +54,31 @@ class CSV_handler:
 
         module_name = ''
         modules = dict()
-        newClass = None
+        new_class = None
         for aline in module_list:
             if aline[0] == 'module':
                 # print(aline)
                 module_name = aline[1]
                 modules[module_name] = list()
             elif aline[0] == 'class':
-                if newClass is None:
-                    newClass = model.ClassNode(aline[1].strip())
+                if new_class is None:
+                    new_class = model.ClassNode(aline[1].strip())
                 else:
-                    modules[module_name].append(newClass)
-                    newClass = model.ClassNode(aline[1].strip())
+                    modules[module_name].append(new_class)
+                    new_class = model.ClassNode(aline[1].strip())
                     # print('class: {}'.format(aline[1]))
             elif aline[0] == 'attributes':
                 # print('attributes: ')
                 loop_counter = 1
                 while loop_counter < len(aline):
-                    newClass.add_attribute(aline[loop_counter].strip(), False)
+                    new_class.add_attribute(aline[loop_counter].strip(), False)
                     # print(" " + aline[loop_counter])
                     loop_counter += 1
             elif aline[0] == 'methods':
                 # print('methods:')
                 loop_counter = 1
                 while loop_counter < len(aline):
-                    newClass.add_function(
+                    new_class.add_function(
                         aline[loop_counter].strip(), 'params', False)
                     # print(' ' + aline[loop_counter])
                     loop_counter += 1
@@ -86,13 +87,14 @@ class CSV_handler:
                 pass
                 # loop_counter = 1
                 # while loop_counter < len(aline):
-                #    newClass.add_super_class(aline[loop_counter].get_name.strip())
+                #    new_class.add_super_class(aline[loop_counter].get_name.strip())
                 # print(' ' + aline[loop_counter])
                 #    loop_counter += 1
-        modules[module_name].append(newClass)
+        modules[module_name].append(new_class)
         return modules
 
-    def write_csv_file(self, modules, filename='myclass.csv'):
+    @staticmethod
+    def write_csv_file(modules, filename='myclass.csv'):
         # Writes module as received from model or from self.open_file
         # to specified csv file.
 
@@ -123,10 +125,6 @@ class CSV_handler:
         except IOError:
             print("Cannot write csv file. Try again another day")
             return False
-        except PermissionError:
-            print(
-                'You do not have appropriate permissions on this system to save the file')
-            return False
         except BaseException:
             print('The system encountered a problem here. Please turn off your computer,')
             print(
@@ -135,7 +133,7 @@ class CSV_handler:
 
 
 if __name__ == '__main__':
-    csvhandler = CSV_handler()
+    csvhandler = CSVHandler()
     newmodule = csvhandler.open_file('plants.csv')
     # print(newmodule)
     # print('------------------------------')
