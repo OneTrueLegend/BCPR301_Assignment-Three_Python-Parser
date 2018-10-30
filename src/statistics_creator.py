@@ -1,7 +1,7 @@
 import plotly
 
+from src.Database import SQLError
 from src.Database.SQLiteDatabaseFactory import SQLiteDatabaseFactory
-from src.sqlite_database import Database, SQLError
 
 
 # By Jake Reddock

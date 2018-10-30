@@ -1,6 +1,7 @@
 import sqlite3
 
 from src.Database.DatabaseFactory import DatabaseFactory
+from src.Database.SQLError import SQLError
 from src.Database.SQLiteDatabaseResult import SQLiteDatabaseResult
 
 
@@ -28,6 +29,7 @@ class SQLiteDatabaseFactory(DatabaseFactory):
     def __init__(self, db_name):
         super().__init__(db_name)
         self.conn = sqlite3.connect("../tmp/" + db_name + '.db')
+
 
 def dict_factory(cursor, row):
     d = {}
