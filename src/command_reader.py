@@ -35,7 +35,7 @@ class CommandReader(Cmd):
         if self.controller.statistics is not None:
             if self.controller.extracted_modules is not None:
                 print("Creating graph, please wait...")
-                self.controller.statistics.show_graph_data()
+                self.controller.statistics.display_graph()
             else:
                 print("Please run the \"output_to_dot\" to command")
         else:

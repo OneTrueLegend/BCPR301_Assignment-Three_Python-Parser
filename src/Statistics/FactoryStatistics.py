@@ -15,7 +15,7 @@ class StatisticsCreator(metaclass=ABCMeta):
     def create_graph(self):
         pass
 
-    def some_operation(self):
+    def display_graph(self):
         graph = self.create_graph()
         graph.show_graph()
 
@@ -58,10 +58,13 @@ class StatisticsCreator(metaclass=ABCMeta):
 class PlotlyStatisticsCreator(StatisticsCreator):
 
     def create_graph(self):
-        return PlotlyAttributeMethodPerClassGraph()
+        return PlotlyAttributeMethodPerClassGraph(self.get_class_data())
 
 
 class Graph(metaclass=ABCMeta):
+
+    def __init__(self, class_data_list):
+        self.class_data_list = class_data_list
 
     @abstractmethod
     def show_graph(self):
@@ -74,7 +77,7 @@ class PlotlyAttributeMethodPerClassGraph(Graph):
         class_names = []
         class_attributes = []
         class_methods = []
-        for class_data in self.get_class_data():
+        for class_data in self.class_data_list:
             class_names.append(class_data.class_name)
             class_attributes.append(class_data.attribute_count)
             class_methods.append(class_data.method_count)

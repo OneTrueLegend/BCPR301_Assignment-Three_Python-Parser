@@ -1,8 +1,8 @@
 import src.uml_output as uml_out
 from src import model
+from src.Statistics.FactoryStatistics import PlotlyStatisticsCreator
 from src.argument_reader import ArgumentReader
 from src.command_reader import CommandReader
-from src.statistics_creator import StatisticsCreator
 
 
 class Controller:
@@ -44,6 +44,6 @@ class Controller:
             print(*self.files, sep="\n")
 
     def enable_statistics(self):
-        self.statistics = StatisticsCreator("statistics")
+        self.statistics = PlotlyStatisticsCreator("statistics")
         self.statistics.create_tables()
         print("Statistics collecting is turned on")
