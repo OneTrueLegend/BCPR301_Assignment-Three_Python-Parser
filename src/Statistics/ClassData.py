@@ -16,3 +16,12 @@ class ClassData:
         self.class_name = class_name
         self.attribute_count = attribute_count
         self.method_count = method_count
+
+    def get_attribute_count(self):
+        return self.attribute_count
+
+    def get_method_count(self):
+        return self.method_count
+
+    def get_name(self):
+        return self.class_name
