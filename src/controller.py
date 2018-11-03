@@ -2,7 +2,7 @@ import src.uml_output as uml_out
 from src import model
 from src.Database.MySQLDatabaseFactory import MySQLDatabaseFactory
 from src.Database.SQLiteDatabaseFactory import SQLiteDatabaseFactory
-from src.Statistics.PlotlyStatisticsCreator import PlotlyStatisticsCreator
+from src.Statistics.StatisticsCreator import StatisticsCreator
 from src.argument_reader import ArgumentReader
 from src.command_reader import CommandReader
 
@@ -57,6 +57,6 @@ class Controller:
     def enable_statistics(self):
         if self.database is None:
             self.set_database()
-        self.statistics = PlotlyStatisticsCreator(self.database)
+        self.statistics = StatisticsCreator(self.database)
         self.statistics.create_tables()
         print("Statistics collecting is turned on")

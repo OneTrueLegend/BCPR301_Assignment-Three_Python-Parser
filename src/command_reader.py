@@ -31,7 +31,10 @@ class CommandReader(Cmd):
         Author: Jake Reddock
         Syntax: enable_statistics
         """
-        self.controller.set_database(args[0])
+        if len(args) > 0:
+            self.controller.set_database(args[0])
+        else:
+            self.controller.set_database()
 
     def do_show_statistics(self, args):
         """
@@ -42,8 +45,11 @@ class CommandReader(Cmd):
         """
         if self.controller.statistics is not None:
             if self.controller.extracted_modules is not None:
-                print("Creating graph, please wait...")
-                self.controller.statistics.display_graph()
+
+                if len(args) > 0:
+                    self.controller.statistics.display_graph(args)
+                else:
+                    self.controller.statistics.display_graph()
             else:
                 print("Please run the \"output_to_dot\" to command")
         else:
