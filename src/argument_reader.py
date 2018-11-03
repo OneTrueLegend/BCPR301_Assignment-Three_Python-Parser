@@ -24,6 +24,10 @@ class ArgumentReader:
             "--statistics",
             action='store_true',
             help="Print Statistics for classes uploaded")
+        parser.add_argument(
+            "-d",
+            "--database",
+            help="Selects which database will be used")
         # Created By Michael Huang
         parser.add_argument(
             "-o",
@@ -33,8 +37,13 @@ class ArgumentReader:
 
     # Created By Jake Reddock
     def parse_arguments(self):
+        if self.args.database is not None:
+            self.controller.set_database(self.args.database)
+
         if self.args.statistics:
             self.controller.enable_statistics()
 
         if self.args.file is not None:
             self.controller.set_input_files(self.args.file)
+
+

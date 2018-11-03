@@ -25,6 +25,14 @@ class CommandReader(Cmd):
         """
         self.controller.enable_statistics()
 
+    def do_set_database(self, args):
+        """
+        Enabled statistics collection
+        Author: Jake Reddock
+        Syntax: enable_statistics
+        """
+        self.controller.set_database(args[0])
+
     def do_show_statistics(self, args):
         """
         Show statistics about the analysed classes

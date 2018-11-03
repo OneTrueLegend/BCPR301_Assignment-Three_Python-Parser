@@ -1,6 +1,8 @@
 import src.uml_output as uml_out
 from src import model
-from src.Statistics.FactoryStatistics import PlotlyStatisticsCreator
+from src.Database.MySQLDatabaseFactory import MySQLDatabaseFactory
+from src.Database.SQLiteDatabaseFactory import SQLiteDatabaseFactory
+from src.Statistics.PlotlyStatisticsCreator import PlotlyStatisticsCreator
 from src.argument_reader import ArgumentReader
 from src.command_reader import CommandReader
 
@@ -11,8 +13,17 @@ class Controller:
         self.files = None
         self.statistics = None
         self.extracted_modules = None
+        self.database = None
         self.command_reader = CommandReader(self)
         self.argument_reader = ArgumentReader(self)
+
+    def set_database(self, database_type=None):
+        if database_type == 'mysql':
+            self.database = MySQLDatabaseFactory("statistics")
+            print('MySQL Database Selected')
+        else:
+            self.database = SQLiteDatabaseFactory("statistics")
+            print('SQLite Database Selected')
 
     def run_console(self):
         self.command_reader.cmdloop('Starting prompt...\n'
@@ -44,6 +55,8 @@ class Controller:
             print(*self.files, sep="\n")
 
     def enable_statistics(self):
-        self.statistics = PlotlyStatisticsCreator("statistics")
+        if self.database is None:
+            self.set_database()
+        self.statistics = PlotlyStatisticsCreator(self.database)
         self.statistics.create_tables()
         print("Statistics collecting is turned on")
